@@ -1,3 +1,0 @@
-#!/home/lev0n/work/dl2/minitorch/_venv/bin/python3
-from numba.pycc import main
-main()
