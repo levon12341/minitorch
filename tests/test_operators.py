@@ -110,7 +110,7 @@ def test_sigmoid(a: float) -> None:
     """
     # between 0 and 1:
     assert 0 <= sigmoid(a) <= 1
- 
+
     # 1 - sigmoid(x) == sigmoid(-x)
     assert_close(1 - sigmoid(a), sigmoid(-a))
 
