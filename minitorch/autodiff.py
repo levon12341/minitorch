@@ -68,6 +68,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     """
     was = set()
     sorting = []
+
     def _topsort(variable):
         was.add(variable.unique_id)
         for p in variable.parents:
@@ -75,7 +76,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
                 _topsort(p)
         if not variable.is_constant():
             sorting.append(variable)
- 
+
     _topsort(variable)
     return sorting[::-1]
 

@@ -139,6 +139,7 @@ class Neg(ScalarFunction):
     def backward(ctx: Context, d_output: float) -> float:
         return operators.neg(d_output)
 
+
 class Sigmoid(ScalarFunction):
     "Sigmoid function"
 

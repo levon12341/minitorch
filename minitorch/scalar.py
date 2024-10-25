@@ -144,7 +144,6 @@ class Scalar:
         if self.derivative is None:
             self.derivative = 0.0
         self.derivative += x
-        # print("Scalar::accumulate_derivative(self={}, x={})".format(self.name, x))
 
     def is_leaf(self) -> bool:
         "True if this variable created by the user (no `last_fn`)"
@@ -163,7 +162,7 @@ class Scalar:
         assert h is not None
         assert h.last_fn is not None
         assert h.ctx is not None
- 
+
         fn = h.last_fn
         ctx = h.ctx
         inputs = h.inputs

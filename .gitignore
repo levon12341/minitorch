@@ -137,3 +137,11 @@ notebooks/**
 # requirements.txt
 requirements.txt
 requirements.extra.txt
+
+# venv
+_venv
+
+# vim temporary
+*.swp
+*.swo
+*~
