@@ -134,10 +134,6 @@ pyodide
 # Notebooks
 notebooks/**
 
-# requirements.txt
-requirements.txt
-requirements.extra.txt
-
 # venv
 _venv
 

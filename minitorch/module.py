@@ -32,13 +32,13 @@ class Module:
     def train(self) -> None:
         "Set the mode of this module and all descendent modules to `train`."
         self.training = True
-        for child in self._modules:
+        for _, child in self._modules.items():
             child.train()
 
     def eval(self) -> None:
         "Set the mode of this module and all descendent modules to `eval`."
         self.training = False
-        for child in self._modules:
+        for _, child in self._modules.items():
             child.eval()
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
@@ -52,8 +52,8 @@ class Module:
         all_params = []
         for param, param_value in self._parameters.items():
             all_params.append((param, param_value))
-        for _, child in self._modules.items():
-            all_params.extend(child.named_parameters())
+        for child_name, child in self._modules.items():
+            all_params.extend([(child_name + "." + p_name, p) for p_name, p in child.named_parameters()])
         return all_params
 
     def parameters(self) -> Sequence[Parameter]:
