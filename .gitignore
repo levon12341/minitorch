@@ -130,3 +130,10 @@ dmypy.json
 *.\#*
 data/
 pyodide
+
+# Notebooks
+notebooks/**
+
+# requirements.txt
+requirements.txt
+requirements.extra.txt
