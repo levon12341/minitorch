@@ -95,7 +95,7 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     def _backprop(variable, deriv):
         if variable.is_leaf():
             variable.accumulate_derivative(deriv)
-        else:
+        elif not variable.is_constant():
             for p, dp in variable.chain_rule(deriv):
                 _backprop(p, dp)
     _backprop(variable, deriv)

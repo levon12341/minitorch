@@ -176,7 +176,6 @@ def test_index() -> None:
 
 def test_fromnumpy() -> None:
     t = tensor([[2, 3, 4], [4, 5, 7]])
-    print(t)
     assert t.shape == (2, 3)
     n = t.to_numpy()
     t2 = tensor(n.tolist())

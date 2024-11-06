@@ -202,11 +202,11 @@ class MathTestVariable(MathTest):
 
     @staticmethod
     def gt2(a, b):
-        return a + 1.2 > b
+        return a + 1.3 > b
 
     @staticmethod
     def lt2(a, b):
-        return a + 1.2 < b
+        return a + 1.3 < b
 
     @staticmethod
     def complex(a):

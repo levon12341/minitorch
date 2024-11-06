@@ -264,8 +264,13 @@ def tensor_map(
         in_shape: Shape,
         in_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        # in-storage, out are contiguous
+        in_index = np.zeros(len(in_shape), dtype=np.int32)
+        out_index = np.zeros(len(in_shape), dtype=np.int32)
+        for i in range(len(out)):
+            to_index(i, out_shape, out_index)
+            broadcast_index(out_index, out_shape, in_shape, in_index)
+            out[i] = fn(in_storage[index_to_position(in_index, in_strides)])
 
     return _map
 
@@ -309,8 +314,16 @@ def tensor_zip(
         b_shape: Shape,
         b_strides: Strides,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.zeros(len(out_shape), dtype=np.int32)
+        a_index = np.zeros(len(a_shape), dtype=np.int32)
+        b_index = np.zeros(len(b_shape), dtype=np.int32)
+        for i in range(len(out)):
+            to_index(i, out_shape, out_index)
+            broadcast_index(out_index, out_shape, a_shape, a_index)
+            broadcast_index(out_index, out_shape, b_shape, b_index)
+            i_a = index_to_position(a_index, a_strides)
+            i_b = index_to_position(b_index, b_strides)
+            out[i] = fn(a_storage[i_a], b_storage[i_b])
 
     return _zip
 
@@ -340,8 +353,15 @@ def tensor_reduce(
         a_strides: Strides,
         reduce_dim: int,
     ) -> None:
-        # TODO: Implement for Task 2.3.
-        raise NotImplementedError('Need to implement for Task 2.3')
+        out_index = np.zeros(len(out_shape), dtype=np.int32)
+        a_index = np.zeros(len(a_shape), dtype=np.int32)
+
+        # reduce a into out
+        for i_a in range(len(a_storage)):
+            to_index(i_a, a_shape, a_index)
+            broadcast_index(a_index, a_shape, out_shape, out_index)
+            i = index_to_position(out_index, out_strides)
+            out[i] = fn(out[i], a_storage[i_a])
 
     return _reduce
 
