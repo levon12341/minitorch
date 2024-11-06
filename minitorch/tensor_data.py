@@ -267,7 +267,6 @@ class TensorData:
         ), f"Must give a position to each dimension. Shape: {self.shape} Order: {order}"
 
         order = [int(order[i]) for i in range(len(order))]
-        assert type(order[0]) == int, "type(order[0]): {}".format(type(order[0]))
         new_shape = [None for _ in self.shape]
         new_strides = [None for _ in self.strides]
         for i in range(len(order)):
