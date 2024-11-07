@@ -43,7 +43,10 @@ def index_to_position(index: Index, strides: Strides) -> int:
         Position in storage
     """
 
-    return sum(i * s for i, s in zip(index, strides))
+    position = 0
+    for i, s in zip(index, strides):
+        position += i * s
+    return position
 
 
 def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
@@ -59,11 +62,10 @@ def to_index(ordinal: int, shape: Shape, out_index: OutIndex) -> None:
         out_index : return index corresponding to position.
 
     """
-    strides = [None for _ in shape]
+    strides = np.zeros(len(shape), dtype=np.int32)
     strides[len(shape) - 1] = 1
     for i in range(len(shape) - 2, -1, -1):
         strides[i] = strides[i + 1] * shape[i + 1]
-    strides = tuple(strides)
     tmp = ordinal
     for i in range(len(out_index)):
         out_index[i] = tmp // strides[i]
@@ -94,12 +96,10 @@ def broadcast_index(
 
     first_common_dim = len(big_shape) - len(shape)
     for i in range(len(shape)):
-        if big_shape[first_common_dim + i] != shape[i] and shape[i] == 1:
+        if shape[i] == 1:
             out_index[i] = 0
-        elif big_shape[first_common_dim + i] == shape[i]:
-            out_index[i] = big_index[first_common_dim + i]
         else:
-            raise ValueError("shapes {} and {} are not broadcastable".format(big_shape, shape))
+            out_index[i] = big_index[first_common_dim + i]
 
 
 def shape_broadcast(shape1: UserShape, shape2: UserShape) -> UserShape:

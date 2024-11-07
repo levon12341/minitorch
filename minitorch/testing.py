@@ -89,11 +89,11 @@ class MathTest(Generic[A]):
 
     @staticmethod
     def gt2(a: A, b: A) -> A:
-        return operators.lt(b, a + 1.2)
+        return operators.lt(b, a + 1.3)
 
     @staticmethod
     def lt2(a: A, b: A) -> A:
-        return operators.lt(a + 1.2, b)
+        return operators.lt(a + 1.3, b)
 
     @staticmethod
     def eq2(a: A, b: A) -> A:
