@@ -298,11 +298,33 @@ def _tensor_matrix_multiply(
     Returns:
         None : Fills in `out`
     """
+
+    # a and b are always 3d, see ops.matrix_multiply
+
+    # thanks to @atgctg
+
+    # may have broadcastable(different) batch size
+    # Like (N, m, k) and (1, k, r)
     a_batch_stride = a_strides[0] if a_shape[0] > 1 else 0
     b_batch_stride = b_strides[0] if b_shape[0] > 1 else 0
 
-    # TODO: Implement for Task 3.2.
-    raise NotImplementedError('Need to implement for Task 3.2')
+    assert a_shape[-1] == b_shape[-2]
+
+    for i in prange(len(out)):
+        idx0 = i // (out_shape[-2] * out_shape[-1])
+        idx1 = (i % (out_shape[-2] * out_shape[-1])) // out_shape[-1]
+        idx2 = i % out_shape[-1]
+
+        out_i = idx0 * out_strides[0] + idx1 * out_strides[1] + idx2 * out_strides[2]
+
+        a_start = idx0 * a_batch_stride + idx1 * a_strides[1]
+        b_start = idx0 * b_batch_stride + idx2 * b_strides[2]
+
+        c = 0
+        for k in prange(a_shape[-1]):
+            c += a_storage[a_start + k * a_strides[2]] \
+                * b_storage[b_start + k * b_strides[1]]
+        out[out_i] = c
 
 
 tensor_matrix_multiply = njit(parallel=True, fastmath=True)(_tensor_matrix_multiply)
